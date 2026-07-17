@@ -90,35 +90,29 @@ public class MyArrays {
         return false;
     }
     public int[] fillMissingValues(int k) {
-        int n = array.length;
         int[] result = array.clone();
+        for (int i = 0; i < this.array.length; i++) {
+           boolean MissingValue = false;
+           if(array[i] == -1 || (i>0 && array[i] < array[i-1])) MissingValue = true;
+           if(MissingValue){
+               int sum= 0, count = 0;
 
-        for (int i = 0; i < n; i++) {
-            boolean isMissing = array[i] == -1
-                    || (i > 0 && array[i] <= array[i - 1]);
-
-            if (isMissing) {
-                int sum = 0, count = 0;
-
-                // k phần tử liền trước (theo vị trí cố định)
-                for (int j = Math.max(0, i - k); j < i; j++) {
-                    if (array[j] != -1) {
+               for(int j = Math.max(0, i-k); j<i; j++){
+                    if(array[j] != -1){
                         sum += array[j];
                         count++;
                     }
-                }
-                // k phần tử liền sau
-                for (int j = i + 1; j <= Math.min(n - 1, i + k); j++) {
-                    if (array[j] != -1) {
-                        sum += array[j];
-                        count++;
-                    }
-                }
-
-                if (count > 0) {
-                    result[i] = sum / count; // chia nguyên = floor (vì giá trị dương)
-                }
-            }
+               }
+               for(int j = i+1;j<=Math.min(array.length,i+k); j++){
+                   if(array[j] != -1){
+                       sum += array[j];
+                       count++;
+                   }
+               }
+              if(count>0){
+                  result[i] = sum/count;
+              }
+           }
         }
         return result;
     }
@@ -135,7 +129,5 @@ public class MyArrays {
 
         System.out.println(Arrays.toString(myArrays.getMissingValues()));
         System.out.println(Arrays.toString(myArrays.fillMissingValues(3)));
-
-
     }
 }
